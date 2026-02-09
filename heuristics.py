@@ -1,6 +1,7 @@
-from board import Board
+def null_heuristic(b) -> int:
+    return 0
 
-def misplaced(b: Board) -> int:
+def misplaced(b) -> int:
     total = 0
     for i, (_, _, value) in enumerate(b.getBoardData()):
         if value == 0: continue # Ignore 0 (empty)
@@ -8,7 +9,7 @@ def misplaced(b: Board) -> int:
             total += 1
     return total
 
-def manhattan(b: Board) -> int:
+def manhattan(b) -> int:
     total = 0
     for row, column, value in b.getBoardData():
         if value == 0: continue
