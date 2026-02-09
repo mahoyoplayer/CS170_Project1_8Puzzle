@@ -24,11 +24,13 @@ def get_permutations(s: str) -> List[str]:
     return res
 
 if __name__ == "__main__":
-    s = "123456780"
+    #s = "123456780"
+    s = "072461358"
     b = Board(s)
-    #sol = b.solve(null_heuristic)
-    #sol.print_info()
-    #exit()
+    sol = b.solve(manhattan)
+    sol.print_info()
+    exit()
+    
     boards = get_permutations(s)
     print(f"Total Boards Generated = {len(boards)}")
 
@@ -42,6 +44,7 @@ if __name__ == "__main__":
     for i, boardString in enumerate(validBoards):
         b = Board(boardString)
         sol_info = b.solve(manhattan)
+        #sol_info.print_info()
         greatestDepth = max(greatestDepth, sol_info.bestSolution)
         if i % 1000 == 0:
             print(f"Currently on {i}")
