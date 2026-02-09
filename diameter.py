@@ -25,7 +25,8 @@ def get_permutations(s: str) -> List[str]:
 
 if __name__ == "__main__":
     #s = "123456780"
-    s = "072461358"
+    #s = "072461358"
+    s = "167503482"
     b = Board(s)
     sol = b.solve(manhattan)
     sol.print_info()

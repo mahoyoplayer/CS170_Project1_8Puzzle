@@ -1,7 +1,7 @@
 from functools import lru_cache
 
-def null_heuristic(values) -> int:
-    return 0
+# Always return 0
+null_heuristic = lambda values: 0
 
 @lru_cache(maxsize=None)
 def misplaced(values) -> int:
@@ -12,6 +12,7 @@ def misplaced(values) -> int:
             total += 1
     return total
 
+# Map index to correct (row, column) coordinate
 correctPlace = tuple(((value - 1) // 3, (value - 1) % 3) for value in range(9))
 
 @lru_cache(maxsize=None)

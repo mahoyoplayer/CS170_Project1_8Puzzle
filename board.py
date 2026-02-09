@@ -80,7 +80,7 @@ class Board:
     def isSolution(self) -> bool:
         return self.values == Board.SOLUTION
 
-    # Return coordinates of empty point on board
+    # Return coordinates (row, column) of empty point on board
     def findZero(self) -> List[int]:
         for i, num in enumerate(self.values):
             if num == 0:
@@ -94,10 +94,10 @@ class Board:
         #if not self.can_solve:
         #    raise RuntimeError("Tried to solve unsolvable board.")
         
-        seen = set()
+        seen = set([self.values])
         dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
         exploreCount = 0
-        bestSol = None
+        solutionDepth = None
         maxSize = 1
 
         start_time = time.perf_counter()
@@ -115,10 +115,8 @@ class Board:
 
             # Check if we have found solution
             if b.isSolution():
-                bestSol = depth
+                solutionDepth = depth
                 break
-
-            seen.add(b.values)
 
             # Find zero
             zeroY, zeroX = b.findZero()
@@ -126,18 +124,19 @@ class Board:
             for deltaX, deltaY in dirs:
                 newX, newY = zeroX + deltaX, zeroY + deltaY
                 if 0 <= newX < 3 and 0 <= newY < 3:
+                    # Then, it is possible to swap
                     index = newY * 3 + newX
-
-                    # Then, we can swap
                     newList = list(b.values)
                     newList[zeroIndex], newList[index] = newList[index], newList[zeroIndex]
                     newBoard = Board(tuple(newList))
 
+                    # Don't add previously seen boards to queue
                     if newBoard.values not in seen:
                         i += 1
                         heappush(heap, (h(newBoard.values) + depth + 1, depth + 1, i, newBoard ))
+                        seen.add(newBoard.values)
         
         end_time = time.perf_counter()
         elapsedTime = end_time-start_time # in seconds
         searchName, heuristicName = mapping[h]
-        return SolutionInfo(searchName, heuristicName, str(self), bestSol, maxSize, elapsedTime, exploreCount)
+        return SolutionInfo(searchName, heuristicName, str(self), solutionDepth, maxSize, elapsedTime, exploreCount)
