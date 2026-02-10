@@ -137,6 +137,6 @@ class Board:
                         seen.add(newBoard.values)
         
         end_time = time.perf_counter()
-        elapsedTime = end_time-start_time # in seconds
+        elapsedTime = end_time-start_time # time taken in seconds
         searchName, heuristicName = mapping[h]
         return SolutionInfo(searchName, heuristicName, str(self), solutionDepth, maxSize, elapsedTime, exploreCount)

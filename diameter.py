@@ -3,6 +3,7 @@ from math import factorial
 from board import Board
 from heuristics import manhattan, misplaced, null_heuristic
 
+# Generate all permutations of a string
 def get_permutations(s: str) -> List[str]:
     n = len(s)
     res = []

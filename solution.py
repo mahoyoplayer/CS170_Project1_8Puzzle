@@ -12,10 +12,10 @@ class SolutionInfo:
         print(f"Search: {self.searchName}")
         print(f"Heuristic: {self.heuristicName}")
         print(f"Board: {self.boardString}")
-        print(f"Best Solution Cost: {self.bestSolution}")
+        print(f"Solution was found at depth: {self.bestSolution}")
         print(f"Max Queue Size: {self.maxQueue}")
-        print(f"Duration: {self.duration:.4f} seconds")
-        print(f"Total Explored Nodes: {self.totalExplored}")
+        print(f"Total Time Taken to find Solution: {self.duration:.4f} seconds")
+        print(f"Total Explored States: {self.totalExplored}")
 
 """
 I want - 
