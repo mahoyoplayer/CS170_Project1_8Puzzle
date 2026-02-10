@@ -31,26 +31,56 @@ def main():
     print("8-Puzzle Solver")
     print("Test Boards")
 
-    depth_choice = None
-    while True:
-        depth_choice = input("\nEnter a depth: (0, 2, 4, 8, 12, 16, 20, 24): ")
-        bad_input = False
-        try:
-            depth_choice = int(depth_choice)
-            if depth_choice not in testBoards: bad_input = True
-        except:
-            bad_input = True
-        if bad_input:
-            print("Invalid input, try again. Please an integer within the values above.\n")
-        else:
-            break
-        
+    while (createChoice := input("\nCreate own board or do pre-generated. 1 or 2: ")) and createChoice not in ["1", "2"]:
+        print('\nInvalid input. Please enter either "1" or "2".')
+
+    b = None
+    if createChoice == "1":
+        prevUsed = []
+        # Enter your own board
+        for i in range(3):
+            while True:
+                row = input(f"Enter Row {i+1}: ").split()
+                try:
+                    assert len(row) == 3
+                    currUsed = []
+                    for j in range(3):
+                        # Verify input is a positive integer
+                        assert row[j].isdigit()
+                        row[j] = int(row[j])     
+                        assert 0 <= row[j] < 9
+                        if row[j] not in currUsed and row[j] not in prevUsed:
+                            currUsed.append(row[j])
+                        else:
+                            assert False
+                    prevUsed.extend(currUsed)
+                    break
+                except:
+                    print("\nInvalid row entered. Make sure your input meets the following requirements.")
+                    print(f'{INDENT}1. Is in the format "a b c" where a, b, and c are different integers between 0 and 8.')
+                    print(f'{INDENT}2. Rows cannot contain integers used in previous rows.{f" You have already used {prevUsed}." if prevUsed else ""}\n')
+        b = Board(tuple(prevUsed))
+    else:
+        depth_choice = None
+        while True:
+            depth_choice = input("\nEnter a depth: (0, 2, 4, 8, 12, 16, 20, 24): ")
+            bad_input = False
+            try:
+                depth_choice = int(depth_choice)
+                if depth_choice not in testBoards: assert False
+                break
+            except:
+                print("Invalid input, try again. Please an integer within the values above.")
+
+        boardString = testBoards[int(depth_choice)] 
+        b = Board(boardString)
 
     h_map = {
         "A": null_heuristic,
         "B": misplaced,
         "C": manhattan
     }
+
     print("\nAlgorithms")
     print(f"{INDENT}A: Uniform Cost Search")
     print(f"{INDENT}B: A* with Misplaced Tile Heuristic")
@@ -58,8 +88,7 @@ def main():
     while (h_choice := input("\nChoose an algorithm: ")) not in h_map:
         print('Invalid input, try again. Please enter "A", "B", or "C".\n')
     
-    boardString = testBoards[int(depth_choice)]
-    b = Board(boardString)
+    
     sol = b.solve(h_map[h_choice], verbose = True)
     print("Final Results: ")
     sol.print_info()
