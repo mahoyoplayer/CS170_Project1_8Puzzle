@@ -20,7 +20,6 @@ class Board:
         if isinstance(values := args[0], tuple):
             if len(values) != 9:
                 raise RuntimeError("Board must 9 values.")
-            #self.rows = copy.deepcopy(rows)
             # Add validation here later
             self.values = values
         elif isinstance(s := args[0], str):
@@ -137,5 +136,3 @@ class Board:
         elapsedTime = end_time-start_time # time taken in seconds
         searchName, heuristicName = mapping[h]
         return SolutionInfo(searchName, heuristicName, str(self), solutionDepth, maxSize, elapsedTime, exploreCount)
-
-# len(visited) + len(queue) > len(qu)
