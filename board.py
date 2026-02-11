@@ -15,19 +15,17 @@ class Board:
     SOLUTION = (1, 2, 3, 4, 5, 6, 7, 8, 0)
 
     def __init__(self, *args):
-        if not args:
-            raise RuntimeError("Cannot instantiate empty Board.")
+        if not args or len(args) != 1:
+            raise RuntimeError("Board instantiated with wrong parameters")
         if isinstance(values := args[0], tuple):
             if len(values) != 9:
                 raise RuntimeError("Board must 9 values.")
             #self.rows = copy.deepcopy(rows)
             # Add validation here later
             self.values = values
-        
         elif isinstance(s := args[0], str):
             if len(s) != 9 and len(set(c for c in s)) != 9:
                 raise RuntimeError(f"Board can only have 9 unique elements. Received {len(s)}")
-
             for char in s:
                 if int(char) not in self.SOLUTION:
                     raise RuntimeError(f"Tried to instantiate board with invalid elements - {char}")    
@@ -91,8 +89,6 @@ class Board:
         return "".join(str(num) for num in self.values)
 
     def solve(self, h, verbose = False) -> SolutionInfo:
-        #if not self.can_solve:
-        #    raise RuntimeError("Tried to solve unsolvable board.")
         
         seen = set([self.values])
         dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
@@ -118,13 +114,14 @@ class Board:
                 solutionDepth = depth
                 break
 
-            # Find zero
+            # Find the location of the empty tile
             zeroY, zeroX = b.findZero()
             zeroIndex = zeroY * 3 + zeroX 
+            # Find all possible moves
             for deltaX, deltaY in dirs:
                 newX, newY = zeroX + deltaX, zeroY + deltaY
                 if 0 <= newX < 3 and 0 <= newY < 3:
-                    # Then, it is possible to swap
+                    # Move number into empty tile.
                     index = newY * 3 + newX
                     newList = list(b.values)
                     newList[zeroIndex], newList[index] = newList[index], newList[zeroIndex]
@@ -140,3 +137,5 @@ class Board:
         elapsedTime = end_time-start_time # time taken in seconds
         searchName, heuristicName = mapping[h]
         return SolutionInfo(searchName, heuristicName, str(self), solutionDepth, maxSize, elapsedTime, exploreCount)
+
+# len(visited) + len(queue) > len(qu)
