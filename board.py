@@ -98,7 +98,7 @@ class Board:
 
     # Returns information about board's solution with the option of output
     def solve(self, h: Callable, verbose: bool = False) -> SolutionInfo:
-        seen = set([self.values])
+        seen = set()
         dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
         exploreCount = 0
         solutionDepth = None
@@ -111,6 +111,7 @@ class Board:
         while heap:
             if len(heap) > maxSize: maxSize = len(heap)
             f, g, _, b = heappop(heap)
+            if b.values in seen: continue
             exploreCount += 1
 
             if verbose:
@@ -126,6 +127,7 @@ class Board:
                 solutionDepth = g
                 break
 
+            #seen.add(b.values)
             # Find the location of the empty tile
             zeroY, zeroX = b.findZero()
             zeroIndex = zeroY * 3 + zeroX 
@@ -139,11 +141,9 @@ class Board:
                     newList[zeroIndex], newList[index] = newList[index], newList[zeroIndex]
                     newBoard = Board(tuple(newList))
 
-                    # Don't add previously seen boards to queue
-                    if newBoard.values not in seen:
-                        i += 1
-                        heappush(heap, (h(newBoard.values) + g + 1, g + 1, i, newBoard ))
-                        seen.add(newBoard.values)
+                    i += 1
+                    heappush(heap, (h(newBoard.values) + g + 1, g + 1, i, newBoard ))
+                    #seen.add(newBoard.values)
         
         end_time = time.perf_counter()
         elapsedTime = end_time-start_time # time taken in seconds
