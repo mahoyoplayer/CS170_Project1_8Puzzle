@@ -30,7 +30,7 @@ def misplaced(values: Tuple) -> int:
     return wrong
 
 # Map index to correct (row, column) coordinate
-correctPlace = tuple(((value - 1) // 3, (value - 1) % 3) for value in range(9))
+correctPlace = [((value - 1) // 3, (value - 1) % 3) for value in range(9)]
 
 """
 Manhattan Distance Heuristic
@@ -44,6 +44,7 @@ Efficient: Yes. Most efficient out of the 3.
 def manhattan(values: Tuple) -> int:
     total = 0
     for i, value in enumerate(values):
+        if value == 0: continue
         # Current row and column of the number
         row, column = i // 3, i % 3
         # Expected row and column of the number

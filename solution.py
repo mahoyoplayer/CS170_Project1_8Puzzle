@@ -9,20 +9,13 @@ class SolutionInfo:
         self.totalExplored = totalExplored
 
     def print_info(self):
-        print(f"Search: {self.searchName}")
+        print(f"Search Algorithm: {self.searchName}")
         print(f"Heuristic: {self.heuristicName}")
-        print(f"Board: {self.boardString}")
-        print(f"Solution was found at depth: {self.bestSolution}")
+        if self.bestSolution == None:
+            print("No solution was found. The board was unsolvable.")
+        else:
+            print(f"Solution was found at depth: {self.bestSolution}")
         print(f"Max Queue Size: {self.maxQueue}")
-        print(f"Total Time Taken to find Solution: {self.duration:.4f} seconds")
         print(f"Total Explored States: {self.totalExplored}")
-
-"""
-I want - 
-    what heuristic was used
-    the string of the original board
-
-    depth of the best solution
-    maximum nodes in queue
-    time it took to find solution
-"""
+        print(f"Total Time Taken by Search: {self.duration:.3f} seconds")
+       

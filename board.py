@@ -1,19 +1,23 @@
-from typing import List, Tuple
+from typing import List, Tuple, Callable
 from heapq import heappush, heappop
 import time
 
 from solution import SolutionInfo
 from heuristics import manhattan, misplaced, null_heuristic
 
+# Map heuristic functions to names
 mapping = {
     null_heuristic : ("Uniform Cost Search", "Null Heuristic"),
     misplaced : ("A* Search", "Misplaced Tile"),
     manhattan : ("A* Search", "Manhattan Distance")
 }
 
+INDENT = "  "
+
 class Board:
     SOLUTION = (1, 2, 3, 4, 5, 6, 7, 8, 0)
 
+    # Constructor
     def __init__(self, *args):
         if not args or len(args) != 1:
             raise RuntimeError("Board instantiated with wrong parameters")
@@ -33,6 +37,7 @@ class Board:
         else:
             raise RuntimeError("Cannot do this, fix this alter")
 
+    # Returns solvability of board in O(1)
     @staticmethod
     def solvable(s: str):
         def inversionCount(board: str) -> int:
@@ -59,6 +64,7 @@ class Board:
     def getValue(self, row: int, column: int) -> int:
         return self.values[row*3 + column]
 
+    # Return values of board alongside row and column coordinates
     def getBoardData(self) -> List[List[int]]:
         res = [0] * 9
         for i in range(9):
@@ -67,11 +73,14 @@ class Board:
             res[i] = (row, column, self.values[row*3 + column])
         return res
 
+    # Print board in pretty grid format
     def printBoard(self) -> None:
-        print("-" *9)
+        print(" " + "-" *11)
         for i in range(0, 9, 3):
-            print(self.values[i:i+3])
-        print("-" *9)
+            print("| ", end = "")
+            print(" | ".join(str(val) for val in self.values[i:i+3]), end = "")
+            print(" |")
+            print(" " + "-" *11)
 
     # Check if the board is goal state
     def isSolution(self) -> bool:
@@ -87,8 +96,8 @@ class Board:
     def __str__(self):
         return "".join(str(num) for num in self.values)
 
-    def solve(self, h, verbose = False) -> SolutionInfo:
-        
+    # Returns information about board's solution with the option of output
+    def solve(self, h: Callable, verbose: bool = False) -> SolutionInfo:
         seen = set([self.values])
         dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
         exploreCount = 0
@@ -101,16 +110,20 @@ class Board:
         
         while heap:
             if len(heap) > maxSize: maxSize = len(heap)
-            _, depth, _, b = heappop(heap)
+            f, g, _, b = heappop(heap)
             exploreCount += 1
 
             if verbose:
+                print(f"Current Board #{exploreCount}")
+                h_value = f - g
+                print(f"The current best board to expand has f(n) = {f} from h(n) = {h_value} and g(n) = {g}.", end = "\n\n")
                 b.printBoard()
-                print("")
+                print("\n")
 
-            # Check if we have found solution
             if b.isSolution():
-                solutionDepth = depth
+                if verbose:
+                    print("Found Goal Board!", end = "\n\n\n")
+                solutionDepth = g
                 break
 
             # Find the location of the empty tile
@@ -129,7 +142,7 @@ class Board:
                     # Don't add previously seen boards to queue
                     if newBoard.values not in seen:
                         i += 1
-                        heappush(heap, (h(newBoard.values) + depth + 1, depth + 1, i, newBoard ))
+                        heappush(heap, (h(newBoard.values) + g + 1, g + 1, i, newBoard ))
                         seen.add(newBoard.values)
         
         end_time = time.perf_counter()
