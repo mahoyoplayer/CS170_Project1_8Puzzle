@@ -1,3 +1,7 @@
+"""
+Data class that stores information about a board's solution.
+Can also print out the statistics.
+"""
 class SolutionInfo:
     def __init__(self, searchName: str, h: str, boardString: str, bestSolution: int, maxQueue: int, duration: float, totalExplored: int):
         self.searchName = searchName

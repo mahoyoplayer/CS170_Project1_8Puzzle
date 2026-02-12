@@ -44,7 +44,7 @@ Efficient: Yes. Most efficient out of the 3.
 def manhattan(values: Tuple) -> int:
     total = 0
     for i, value in enumerate(values):
-        if value == 0: continue
+        if value == 0: continue # Ignore 0 (empty)
         # Current row and column of the number
         row, column = i // 3, i % 3
         # Expected row and column of the number
