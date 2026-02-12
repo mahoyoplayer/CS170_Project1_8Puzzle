@@ -127,7 +127,7 @@ class Board:
                 solutionDepth = g
                 break
 
-            #seen.add(b.values)
+            seen.add(b.values)
             # Find the location of the empty tile
             zeroY, zeroX = b.findZero()
             zeroIndex = zeroY * 3 + zeroX 
