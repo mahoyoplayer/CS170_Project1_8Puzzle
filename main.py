@@ -1,18 +1,6 @@
 from board import Board
 from heuristics import manhattan, null_heuristic, misplaced
 
-"""
-Report Link
-https://docs.google.com/document/d/1EuaSfyVOmH6oO5BKkVf7cM13KElzivaVgpwU0cvI5j4/edit?tab=t.2xgeqygu6rx2
-
-
-You can hardcode an initial state for testing purposes. 
-But I want to be able to enter an arbitrary initial state. 
-So sometime along the lines of the interface on the next page would be nice.
-
-https://www.dropbox.com/scl/fi/c842lv0m28rjj8si36nda/Project_1_The_Eight_Puzzle_CS_170_2026.pdf?rlkey=032lxqgkk33zq7gov604tr5ko&e=2&dl=0
-"""
-
 # Map of solution depth to pre-generated board strings
 testBoards = {
     0: "123456780",
