@@ -48,7 +48,7 @@ def manhattan(values: Tuple) -> int:
         # Current row and column of the number
         row, column = i // 3, i % 3
         # Expected row and column of the number
-        correctRow, correctColumn = correctPlace[value] #(value - 1) // 3, (value - 1) % 3
+        correctRow, correctColumn = correctPlace[value]
         # Difference = difference in x + difference in y
         total += abs(correctRow - row) + abs(correctColumn - column)
     return total
