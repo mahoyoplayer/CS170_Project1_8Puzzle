@@ -143,7 +143,6 @@ class Board:
 
                     i += 1
                     heappush(heap, (h(newBoard.values) + g + 1, g + 1, i, newBoard ))
-                    #seen.add(newBoard.values)
         
         end_time = time.perf_counter()
         elapsedTime = end_time-start_time # time taken in seconds
