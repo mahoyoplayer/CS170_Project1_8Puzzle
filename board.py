@@ -35,31 +35,7 @@ class Board:
                 
             self.values = tuple(int(c) for c in s)
         else:
-            raise RuntimeError("Cannot do this, fix this alter")
-
-    # Returns solvability of board in O(1)
-    @staticmethod
-    def solvable(s: str):
-        def inversionCount(board: str) -> int:
-            nums = [int(c) for c in board if c != "0"]
-            total = 0
-            for i in range(len(nums)):
-                for j in range(i+1, len(nums)):
-                    if nums[i] > nums[j]:
-                        total += 1
-            return total
-        """
-        def inversionCount(board: str) -> bool:
-            total = 0
-            found = [0] * 9
-            for num in [int(c) for c in board]:
-                if num == 0: continue
-                total += sum(found[num:])
-                found[num-1] = 1
-            return total
-        # Inversion count must be even to be valid
-        """
-        return inversionCount(s) % 2 == 0
+            raise RuntimeError("Board instantiated with wrong type.")
 
     def getValue(self, row: int, column: int) -> int:
         return self.values[row*3 + column]
@@ -121,6 +97,7 @@ class Board:
                 b.printBoard()
                 print("\n")
 
+            # Check if is goal state.
             if b.isSolution():
                 if verbose:
                     print("Found Goal Board!", end = "\n\n\n")
