@@ -1,5 +1,6 @@
 # CS170_Project1_8Puzzle
-Made for CS170 @ UCR. Winter 2026 w/ Eamonn Keogh.
+Made for CS170 @ UCR. Winter 2026 with Prof. Eamonn Keogh. \
+Received a grade of 100/100 for this assignment.
 
 # Run With 
    ```bash
