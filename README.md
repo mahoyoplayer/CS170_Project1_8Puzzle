@@ -1,4 +1,4 @@
-# CS170_Project1_8Puzzle
+# CS170 - Project 1 (8-Puzzle Solver)
 Made for CS170 @ UCR. Winter 2026 with Prof. Eamonn Keogh. \
 Received a grade of 100/100 for this assignment. \
 Seems to me that as long as you follow the rubric like it's a god and do not have any glaring flaws in your code, you will get a high score. \
